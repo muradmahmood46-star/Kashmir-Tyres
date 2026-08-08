@@ -10,10 +10,15 @@ const prisma = new PrismaClient()
 const app = express()
 const PORT = process.env.PORT || 3001
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-ecommerce-key-123'
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8443'
 
-app.use(cors())
+app.use(cors({
+  origin: [FRONTEND_URL, 'http://localhost:8443', 'http://localhost:3000'],
+  credentials: true
+}))
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
 
 const uploadDir = path.join(__dirname, 'uploads')
 if (!fs.existsSync(uploadDir)) {
