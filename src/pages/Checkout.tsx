@@ -37,7 +37,7 @@ export default function Checkout() {
   const handlePlaceOrder = async () => {
     setPlacing(true)
     try {
-      const res = await fetch('http://localhost:3001/api/checkout', {
+      const res = await fetch(`${import.meta.env.PROD ? '' : 'http://localhost:3001'}/api/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

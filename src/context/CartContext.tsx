@@ -16,7 +16,7 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | null>(null)
 
-const API_BASE = 'http://localhost:3001/api'
+const API_BASE = `${import.meta.env.PROD ? '' : 'http://localhost:3001'}/api`
 const getHeaders = () => {
   const token = localStorage.getItem('token')
   return {

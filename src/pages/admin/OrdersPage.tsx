@@ -35,7 +35,7 @@ export default function OrdersPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/admin/orders', {
+    fetch(`${import.meta.env.PROD ? '' : 'http://localhost:3001'}/api/admin/orders`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -61,7 +61,7 @@ export default function OrdersPage() {
       const orderToUpdate = orders.find(o => o.id === id)
       if (!orderToUpdate) return
 
-      await fetch(`http://localhost:3001/api/admin/orders/${(orderToUpdate as any).dbId}/status`, {
+      await fetch(`${import.meta.env.PROD ? '' : 'http://localhost:3001'}/api/admin/orders/${(orderToUpdate as any).dbId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

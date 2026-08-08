@@ -209,7 +209,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      setCurrentRole(user.role as Role)
+      setCurrentRole(user.role.toLowerCase() as Role)
       fetchUserData()
     } else {
       setWishlist([])
