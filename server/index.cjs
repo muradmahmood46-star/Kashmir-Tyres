@@ -8,7 +8,7 @@ const path = require('path')
 
 const prisma = new PrismaClient()
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 7860
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-ecommerce-key-123'
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8443'
 
