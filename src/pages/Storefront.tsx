@@ -226,7 +226,7 @@ export default function Storefront() {
               </div>
             </div>
           )}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8 mt-6 md:mt-0">
             {heroStats.map((s) => (
               <div key={s.id || s.label} className="text-center">
                 <div style={{ fontFamily: 'Montserrat, sans-serif' }} className="text-2xl font-black text-[#10b981] uppercase">{s.value}</div>
