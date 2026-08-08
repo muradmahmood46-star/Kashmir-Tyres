@@ -21,14 +21,17 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 
 const uploadDir = path.join(__dirname, 'uploads')
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true })
+if (!process.env.VERCEL) {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true })
+  }
 }
 app.use('/uploads', express.static(uploadDir))
 
 const processBase64Images = (body) => {
   const processString = (str) => {
     if (typeof str === 'string' && str.startsWith('data:image')) {
+      if (process.env.VERCEL) return str; // Keep as base64 in database on Vercel
       try {
         const matches = str.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
         if (matches && matches.length === 3) {
@@ -36,7 +39,7 @@ const processBase64Images = (body) => {
           const buffer = Buffer.from(matches[2], 'base64')
           const fileName = `upload_${Date.now()}_${Math.floor(Math.random()*10000)}.${ext}`
           fs.writeFileSync(path.join(uploadDir, fileName), buffer)
-          return `http://localhost:3001/uploads/${fileName}`
+          return `${process.env.VITE_API_URL || 'http://localhost:3001'}/uploads/${fileName}`
         }
       } catch (err) {
         console.error('Failed to process base64 image', err)
