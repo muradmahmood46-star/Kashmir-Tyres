@@ -3,13 +3,13 @@
   "buildCommand": "npx prisma generate && npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/server.cjs": {
+    "api/server.js": {
       "memory": 1024,
       "maxDuration": 30
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/server.cjs" },
+    { "source": "/api/(.*)", "destination": "/api/server.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
