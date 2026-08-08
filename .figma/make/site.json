@@ -1,0 +1,10 @@
+{
+  "description": "Offers a premium e-commerce platform with advanced product filtering and a role-based admin dashboard for efficient store and user management.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

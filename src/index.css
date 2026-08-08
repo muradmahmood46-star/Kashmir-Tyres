@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-navy-950: #060e1f;
+  --color-navy-900: #0d1b35;
+  --color-navy-800: #132245;
+  --color-navy-700: #1a2d5a;
+  --color-navy-600: #213870;
+  --color-navy-500: #2a4690;
+  --color-navy-400: #4a65ab;
+  --color-navy-300: #7c96cc;
+  --color-navy-200: #b3c3e6;
+  --color-navy-100: #dce5f4;
+  --color-navy-50: #f0f4fb;
+
+  --color-emerald-700: #047857;
+  --color-emerald-600: #059669;
+  --color-emerald-500: #10b981;
+  --color-emerald-400: #34d399;
+  --color-emerald-100: #d1fae5;
+  --color-emerald-50: #ecfdf5;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover {
+  scrollbar-color: rgba(42, 70, 144, 0.25) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafd;
+  color: #0d1b35;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Initial state for GSAP scroll-animated items — hidden until ScrollTrigger fires */
+[data-scroll-animate] {
+  opacity: 0;
+}
+
+/* Initial state for GSAP hero entrance elements — hidden until entrance animation runs */
+[data-hero-animate] {
+  opacity: 0;
+}
+
+/* Smooth focus-visible ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-emerald-500);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(42, 70, 144, 0.2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(42, 70, 144, 0.35);
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

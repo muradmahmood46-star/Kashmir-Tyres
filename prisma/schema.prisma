@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      String   @default("customer")
+  createdAt DateTime @default(now())
+
+  addresses Address[]
+  wishlist  WishlistItem[]
+  cart      CartItem[]
+  orders    Order[]
+}
+
+model Category {
+  id          String @id @default(uuid())
+  name        String
+  icon        String
+  description String
+  image       String
+}
+
+model Brand {
+  id       String  @id @default(uuid())
+  name     String
+  logo     String
+  country  String
+  verified Boolean @default(false)
+}
+
+model Product {
+  id             Int     @id @default(autoincrement())
+  name           String
+  categoryId     String
+  brandId        String
+  price          Float
+  originalPrice  Float?
+  rating         Float   @default(0)
+  reviews        Int     @default(0)
+  badge          String?
+  img            String
+  gallery        String  @default("[]") // JSON string of additional images
+  tag            String?
+  description    String?
+  features       String  @default("[]") // JSON string
+  specifications String  @default("{}") // JSON string
+  inStock        Boolean @default(true)
+  stock          Int     @default(0)
+  freeShipping   Boolean @default(false)
+
+  wishlistItems WishlistItem[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+}
+
+model Bundle {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  productIds    String   @default("[]") // JSON string of IDs
+  originalTotal Float
+  bundlePrice   Float
+  discountType  String
+  discountValue Float
+  badge         String
+  heroImage     String
+  active        Boolean  @default(false)
+  isPopular     Boolean  @default(false)
+  freeShipping  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  userId       String
+  label        String
+  locationType String
+  firstName    String
+  lastName     String
+  company      String?
+  address      String
+  city         String
+  state        String
+  zip          String
+  country      String
+  phone        String
+  fullAddress  String
+  isDefault    Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WishlistItem {
+  id        String   @id @default(uuid())
+  userId    String
+  productId Int
+  addedAt   DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model CartItem {
+  id        String @id @default(uuid())
+  userId    String
+  productId Int
+  quantity  Int
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  orderNumber     String   @unique
+  userId          String
+  status          String   @default("Pending") // Pending, Processing, Shipped, Delivered, Cancelled
+  totalAmount     Float
+  paymentMethod   String
+  trackingNumber  String?
+  shippingAddress String // JSON string of address details
+  contactName     String
+  createdAt       DateTime @default(now())
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId Int
+  quantity  Int
+  price     Float
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model TrustedOrg {
+  id       String @id @default(uuid())
+  name     String
+  industry String
+}
+
+model HeroStat {
+  id    String @id @default(uuid())
+  value String
+  label String
+}
+
+model SaleAnnouncement {
+  id              String  @id @default(uuid())
+  name            String
+  occasionTheme   String
+  discountPercent Float
+  appliesTo       String  @default("{}") // JSON string
+  isActive        Boolean @default(false)
+  startDate       String?
+  endDate         String?
+}
+
+model SpecTemplate {
+  id       String @id @default(uuid())
+  name     String
+  unit     String
+  category String
+}
+
+model GlobalSettings {
+  id            String @id @default("default")
+  orgName       String @default("Star Sports")
+  timezone      String @default("America/New_York")
+  language      String @default("English (US)")
+  dateFormat    String @default("MM/DD/YYYY")
+  currency      String @default("Rs")
+  bannerImage   String @default("https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1440&h=500&fit=crop&auto=format")
+  bannerLabel   String @default("24/7 Security Operations")
+  bannerTitle   String @default("Your Threats Never Sleep.\nNeither Do We.")
+  bannerSubtext String @default("Round-the-clock monitoring by certified security analysts backed by AI-powered automation.")
+  sliderImages  String @default("[]")
+}
