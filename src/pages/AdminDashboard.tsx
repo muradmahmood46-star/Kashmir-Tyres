@@ -67,7 +67,7 @@ function OrdersOverview({ onNav }: { onNav: (id: NavId) => void }) {
   const [useCustom, setUseCustom] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/admin/orders', {
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/admin/orders`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => {
@@ -225,7 +225,7 @@ function DashboardHome({ onNav }: { onNav: (id: NavId) => void }) {
   const activeBundles = bundles.filter((b) => b.active)
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/admin/orders', {
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/admin/orders`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => {
