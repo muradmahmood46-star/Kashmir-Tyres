@@ -1,5 +1,6 @@
 import { formatPrice } from '../../utils/formatPrice'
 import { useState } from 'react'
+import { compressImage } from '../../utils/imageCompressor'
 import { useApp, type AdminProduct } from '../../context/AppContext'
 
 // removed sample imgs
@@ -249,13 +250,7 @@ export default function AddProduct({ onGoToCatalog }: { onGoToCatalog?: () => vo
                   const allFiles = files.slice(0, 4) // Max 4 files at once
                   
                   // Read files
-                  Promise.all(allFiles.map(file => {
-                    return new Promise<string>((resolve) => {
-                      const reader = new FileReader()
-                      reader.onloadend = () => resolve(reader.result as string)
-                      reader.readAsDataURL(file)
-                    })
-                  })).then(base64Images => {
+                  Promise.all(allFiles.map(file => compressImage(file))).then(base64Images => {
                     setForm(prev => {
                       // Combine existing images and new ones, up to 4 total
                       const currentTotal = [prev.img, ...(prev.gallery || [])].filter(Boolean)

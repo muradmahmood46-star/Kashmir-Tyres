@@ -153,32 +153,51 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
 })
 
 // === CRUD Factory Helper ===
-// Generates basic GET, POST, PUT, DELETE for any model
 const createCrudRoutes = (modelName, path) => {
   app.get(path, async (req, res) => {
-    const items = await prisma[modelName].findMany()
-    res.json(items)
+    try {
+      const items = await prisma[modelName].findMany()
+      res.json(items)
+    } catch (err) {
+      console.error(`GET ${path} error:`, err)
+      res.status(500).json({ error: err.message })
+    }
   })
   
   app.post(path, async (req, res) => {
-    processBase64Images(req.body)
-    const item = await prisma[modelName].create({ data: req.body })
-    res.json(item)
+    try {
+      processBase64Images(req.body)
+      const item = await prisma[modelName].create({ data: req.body })
+      res.json(item)
+    } catch (err) {
+      console.error(`POST ${path} error:`, err)
+      res.status(500).json({ error: err.message })
+    }
   })
   
   app.put(`${path}/:id`, async (req, res) => {
-    let id = req.params.id
-    if (modelName === 'product') id = parseInt(id) // product uses integer ID
-    processBase64Images(req.body)
-    const item = await prisma[modelName].update({ where: { id }, data: req.body })
-    res.json(item)
+    try {
+      let id = req.params.id
+      if (modelName === 'product') id = parseInt(id)
+      processBase64Images(req.body)
+      const item = await prisma[modelName].update({ where: { id }, data: req.body })
+      res.json(item)
+    } catch (err) {
+      console.error(`PUT ${path} error:`, err)
+      res.status(500).json({ error: err.message })
+    }
   })
   
   app.delete(`${path}/:id`, async (req, res) => {
-    let id = req.params.id
-    if (modelName === 'product') id = parseInt(id)
-    await prisma[modelName].delete({ where: { id } })
-    res.json({ success: true })
+    try {
+      let id = req.params.id
+      if (modelName === 'product') id = parseInt(id)
+      await prisma[modelName].delete({ where: { id } })
+      res.json({ success: true })
+    } catch (err) {
+      console.error(`DELETE ${path} error:`, err)
+      res.status(500).json({ error: err.message })
+    }
   })
 }
 

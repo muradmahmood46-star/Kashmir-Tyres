@@ -73,12 +73,7 @@ export default function Settings() {
   const handleBannerUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setBannerImageDraft(reader.result as string)
-        setBannerSaved(false)
-      }
-      reader.readAsDataURL(file)
+      compressImage(file).then(res => { setBannerImageDraft(res); setBannerSaved(false); })
     }
   }
 
@@ -443,11 +438,7 @@ export default function Settings() {
                         e.preventDefault()
                         const file = e.dataTransfer.files[0]
                         if (file && file.type.startsWith('image/')) {
-                          const reader = new FileReader()
-                          reader.onloadend = () => {
-                            updateSettings({ sliderImages: [...(settings?.sliderImages || []), reader.result as string] })
-                          }
-                          reader.readAsDataURL(file)
+                          compressImage(file).then(res => { updateSettings({ sliderImages: [...(settings?.sliderImages || []), res] }) })
                         }
                       }}
                     >
@@ -458,11 +449,7 @@ export default function Settings() {
                         onChange={(e) => {
                           const file = e.target.files?.[0]
                           if (file) {
-                            const reader = new FileReader()
-                            reader.onloadend = () => {
-                              updateSettings({ sliderImages: [...(settings?.sliderImages || []), reader.result as string] })
-                            }
-                            reader.readAsDataURL(file)
+                            compressImage(file).then(res => { updateSettings({ sliderImages: [...(settings?.sliderImages || []), res] }) })
                           }
                         }}
                       />
