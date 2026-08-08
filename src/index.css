@@ -88,3 +88,4 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+html { font-size: 14px; /* Adjusts overall zoom level down slightly */ }
