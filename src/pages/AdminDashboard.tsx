@@ -363,12 +363,14 @@ export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   useEffect(() => {
-    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
+    const role = user?.role?.toLowerCase()
+    if (!user || (role !== 'admin' && role !== 'super_admin')) {
       navigate('/login')
     }
   }, [user, navigate])
 
-  if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
+  const role = user?.role?.toLowerCase()
+  if (!user || (role !== 'admin' && role !== 'super_admin')) {
     return null
   }
 
