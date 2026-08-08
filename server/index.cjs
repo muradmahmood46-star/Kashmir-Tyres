@@ -369,10 +369,9 @@ app.put('/api/admin/settings', authenticateToken, async (req, res) => {
   }
 })
 
-// In Vercel serverless mode, export the app. Otherwise start the server.
-if (process.env.VERCEL) {
-  module.exports = app
-} else {
+module.exports = app
+
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`Backend server running on http://localhost:${PORT}`)
   })
