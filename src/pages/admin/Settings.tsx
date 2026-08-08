@@ -316,18 +316,18 @@ export default function Settings() {
           {tab === 'storefront' && (
             <div className="p-6 space-y-6">
 
-              {/* SOC Banner Image */}
+              {/* Storefront Hero Banner */}
               <div>
-                <h3 style={{ fontFamily: 'Fraunces, serif' }} className="text-base font-semibold text-[#0d1b35] mb-0.5">SOC Banner Image</h3>
-                <p className="text-xs text-[#7c96cc] mb-4">Background image for the "24/7 Security Operations" section on the homepage.</p>
+                <h3 style={{ fontFamily: 'Fraunces, serif' }} className="text-base font-semibold text-[#0d1b35] mb-0.5">Storefront Hero Banner</h3>
+                <p className="text-xs text-[#7c96cc] mb-4">Background image for the main hero section on the homepage.</p>
                 <div className="rounded-xl border border-[#dce5f4] overflow-hidden">
                   {bannerImageDraft && (
                     <div className="relative h-32 bg-[#f0f4fb]">
                       <img src={bannerImageDraft} alt="Banner preview" className="w-full h-full object-cover opacity-80" onError={(e) => (e.currentTarget.style.display = 'none')} />
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0d1b35]/60 to-transparent flex items-center px-4">
                         <div>
-                          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#10b981]">24/7 Security Operations</p>
-                          <p style={{ fontFamily: 'Fraunces, serif' }} className="text-white text-sm font-semibold">Your Threats Never Sleep.</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#10b981]">{bannerTextDraft.bannerLabel || 'Kashmir Tyres'}</p>
+                          <p style={{ fontFamily: 'Fraunces, serif' }} className="text-white text-sm font-semibold">{bannerTextDraft.bannerTitle || 'GRIP THE ROAD. OWN THE JOURNEY.'}</p>
                         </div>
                       </div>
                     </div>
@@ -359,14 +359,14 @@ export default function Settings() {
               {/* Banner Text */}
               <div>
                 <h3 style={{ fontFamily: 'Fraunces, serif' }} className="text-base font-semibold text-[#0d1b35] mb-0.5">Banner Text</h3>
-                <p className="text-xs text-[#7c96cc] mb-4">Text displayed over the SOC Banner Image.</p>
+                <p className="text-xs text-[#7c96cc] mb-4">Text displayed over the Hero Banner Image.</p>
                 <div className="rounded-xl border border-[#dce5f4] bg-[#f8fafd] p-4 space-y-3">
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-widest text-[#4a65ab] mb-1.5 block">Label</label>
                     <input
                       value={bannerTextDraft.bannerLabel}
                       onChange={(e) => { setBannerTextDraft({ ...bannerTextDraft, bannerLabel: e.target.value }); setBannerTextSaved(false) }}
-                      placeholder="e.g. 24/7 Security Operations"
+                      placeholder="e.g. Kashmir Tyres"
                       className="w-full rounded-lg border border-[#dce5f4] bg-white px-3 py-2 text-sm focus:border-[#4a65ab] focus:outline-none transition-all"
                     />
                   </div>
@@ -375,7 +375,7 @@ export default function Settings() {
                     <textarea
                       value={bannerTextDraft.bannerTitle}
                       onChange={(e) => { setBannerTextDraft({ ...bannerTextDraft, bannerTitle: e.target.value }); setBannerTextSaved(false) }}
-                      placeholder="e.g. Your Threats Never Sleep. Neither Do We."
+                      placeholder="e.g. GRIP THE ROAD. OWN THE JOURNEY."
                       rows={2}
                       className="w-full rounded-lg border border-[#dce5f4] bg-white px-3 py-2 text-sm focus:border-[#4a65ab] focus:outline-none transition-all"
                     />
@@ -385,7 +385,7 @@ export default function Settings() {
                     <textarea
                       value={bannerTextDraft.bannerSubtext}
                       onChange={(e) => { setBannerTextDraft({ ...bannerTextDraft, bannerSubtext: e.target.value }); setBannerTextSaved(false) }}
-                      placeholder="e.g. Round-the-clock monitoring..."
+                      placeholder="e.g. From city streets to mountain passes, every mile matters."
                       rows={2}
                       className="w-full rounded-lg border border-[#dce5f4] bg-white px-3 py-2 text-sm focus:border-[#4a65ab] focus:outline-none transition-all"
                     />

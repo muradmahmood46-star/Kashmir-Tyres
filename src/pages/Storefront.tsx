@@ -43,7 +43,7 @@ export default function Storefront() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [sort, setSort] = useState('featured')
   const { addItem } = useCart()
-  const { isWishlisted, toggleWishlist, bundles, getProductsInBundle, activeSaleBanner, adminProducts: PRODUCTS, categories, brands, heroStats } = useApp()
+  const { isWishlisted, toggleWishlist, bundles, getProductsInBundle, activeSaleBanner, adminProducts: PRODUCTS, categories, brands, heroStats, settings } = useApp()
   const CATEGORIES = ['All', ...categories.map(c => c.name)]
   const BRANDS = brands.map(b => b.name)
   const activeBundles = bundles.filter((b) => b.active)
@@ -200,18 +200,29 @@ export default function Storefront() {
   return (
     <div className="min-h-screen bg-[#f8fafd]">
       {/* Hero banner */}
-      <div className="bg-gradient-to-r from-[#0d1b35] via-[#1a2d5a] to-[#213870] px-6 py-10">
-        <div className="mx-auto max-w-[1440px] flex items-center justify-between">
+      <div className="relative px-6 py-10 overflow-hidden min-h-[300px] flex items-center">
+        {settings?.bannerImage ? (
+          <img src={settings.bannerImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0d1b35] via-[#1a2d5a] to-[#213870]" />
+        )}
+        {settings?.bannerImage && <div className="absolute inset-0 bg-black/60" />}
+
+        <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row items-center justify-between w-full relative z-10">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-[#10b981] mb-2">Kashmir Tyres</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-[#10b981] mb-2">{settings?.bannerLabel || 'Kashmir Tyres'}</p>
             <h1 style={{ fontFamily: 'Montserrat, sans-serif' }} className="text-3xl font-black text-white leading-tight uppercase tracking-wider">
               {searchQuery ? `Results for "${searchQuery}"` : (
                 <>
-                  GRIP THE ROAD. <span className="text-[#10b981]">OWN THE JOURNEY.</span>
+                  {settings?.bannerTitle ? (
+                    <span className="text-white">{settings.bannerTitle}</span>
+                  ) : (
+                    <>GRIP THE ROAD. <span className="text-[#10b981]">OWN THE JOURNEY.</span></>
+                  )}
                 </>
               )}
             </h1>
-            <p className="mt-1.5 text-sm text-[#7c96cc]">From city streets to mountain passes, every mile matters.</p>
+            <p className="mt-1.5 text-sm text-[#e2e8f0]">{settings?.bannerSubtext || 'From city streets to mountain passes, every mile matters.'}</p>
           </div>
           {saleAnnouncement && (
             <div className="mt-4 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-white shadow-lg shadow-[#00000033]">
